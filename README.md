@@ -1,13 +1,18 @@
-# Self-hosted NAS
+# 🗄️ Self-Hosted NAS on Raspberry Pi
 
-## Overview
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Platform: Raspberry Pi](https://img.shields.io/badge/Platform-Raspberry%20Pi-red)
+![Docker](https://img.shields.io/badge/Docker-ready-blue)
+![Status](https://img.shields.io/badge/Documentation-Complete-brightgreen)
+
+## 📎 Overview
 
 This project documents the setup of a self-hosted NAS (Network Attached Storage) on a Raspberry Pi 4.  
 The goal: build a secure, private, and maintainable home cloud to replace commercial services such as iCloud.
 
 ---
 
-## Hardware
+## ⚙️ Hardware
 
 - Raspberry Pi 4 (4 GB RAM) + microSD (Debian 12, 64-bit)
 - 2x HDDs (2 TB for media, 3 TB for personal cloud)
@@ -17,7 +22,7 @@ The goal: build a secure, private, and maintainable home cloud to replace commer
 
 ---
 
-## System
+## 💻 System
 
 - OS: Debian GNU/Linux 12 (Bookworm, arm64)
 - Core services:
@@ -29,7 +34,7 @@ The goal: build a secure, private, and maintainable home cloud to replace commer
 
 ---
 
-## Storage
+## 📁 Storage
 
 - `/srv/media` → 2 TB (ext4) for media library
 - `/srv/cloud` → 3 TB (ext4) for personal files & backups
@@ -37,7 +42,7 @@ The goal: build a secure, private, and maintainable home cloud to replace commer
 
 ---
 
-## Security & Remote Access
+## 🔒 Security & Remote Access
 
 - SSH hardened (key-based, no password login)
 - UFW firewall restricting services
@@ -49,10 +54,10 @@ The goal: build a secure, private, and maintainable home cloud to replace commer
 
 ---
 
-## Services
+## 📄 Services
 
 - **Samba** → File sharing across local devices
-- **Nextcloud** → Private cloud for:
+- **Nextcloud** → Private cloud deployed with Docker Compose for:
   - Files
   - Photos
   - Contacts
@@ -61,7 +66,39 @@ The goal: build a secure, private, and maintainable home cloud to replace commer
 
 ---
 
-## Maintenance
+## 🏛️ Architecture
+
+```
+                        [ Clients ]
+     (Phone / Laptop / Browser / Nextcloud App)
+
+                               |
+                        -- VPN (WireGuard) --
+                               |
+                        [ Raspberry Pi 4 ]
+                               |
+     ------------------------------------------------------
+     |                 |                 |                |
+ [ Docker/Nextcloud ]  [ Docker/Caddy ]  [ Docker/Vaultwarden ]
+  (Private cloud for    (HTTPS reverse-   (Password manager
+   files, photos,        proxy + TLS)      self-hosted)
+   contacts, calendar)
+
+                         [ Samba ]
+                    (Classic file shares)
+
+                     [ System Services ]
+          (SSH, UFW Firewall, Fail2Ban, Avahi/mDNS)
+
+     ------------------------------------------------------
+                               |
+                         [ USB Drives ]
+                  /srv/media      /srv/cloud
+```
+
+---
+
+## 🛠️ Maintenance
 
 **Monitoring**
 
@@ -91,7 +128,7 @@ To run (local only) :
 
 ---
 
-## Roadmap
+## 🗓️ Roadmap
 
 - Automate SMART monitoring & alerts
 - Automated backup jobs (rclone or external HDD rotation)
@@ -103,3 +140,16 @@ To run (local only) :
 - Securely exposing local infrastructure via VPN
 - Managing multi-disk setup on Raspberry Pi
 - Documentation & reproducibility (all steps versioned here)
+
+---
+
+## 🛡 License
+
+This project is licensed under the MIT License – see the LICENSE file for details.
+
+---
+
+## 👩‍💻 Author
+
+Ludivine Lombardi  
+GitHub: [@lulmbd](https://github.com/lulmbd)
